@@ -1,0 +1,106 @@
+# For more information: https://laravel.com/docs/sail
+version: '3.4'
+services:
+    nginx:
+        container_name: "${PROJECT_NAME}_nginx"
+        build:
+            context: ./docker/nginx
+            dockerfile: Dockerfile
+        depends_on:
+            - app
+        volumes:
+            - ./:/var/www/vhost/hosp-cms:cached
+            - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+            - ./docker/nginx/conf.d:/etc/nginx/conf.d
+            - ./docker/nginx/ssl:/etc/nginx/ssl
+        working_dir: /var/www/vhost/
+        ports:
+            - '443:443'
+            - '9008:9008'
+        #            - '3000:3000'
+        #            - '3001:3001'
+        networks:
+            - hosp-cms-network
+        labels:
+            - 'traefik.http.routers.${PROJECT_NAME}_nginx.rule=HostRegexp(`${APP_DOMAIN}`, `{subdomain:[a-z]+.${APP_DOMAIN}}`)'
+            - 'traefik.http.routers.${PROJECT_NAME}_nginx.priority=1'
+            - 'traefik.docker.network=proxy'
+
+    app:
+        container_name: "${PROJECT_NAME}_php"
+        build:
+            context: ./docker/php
+            dockerfile: Dockerfile
+            target: base
+        environment:
+            PHP_MEMORY_LIMIT: '-1'
+            COMPOSER_MEMORY_LIMIT: '-1'
+            PHP_IDE_CONFIG: 'serverName=${APP_DOMAIN}'
+        working_dir: /var/www/vhost/hosp-cms
+        volumes:
+            - './:/var/www/vhost/hosp-cms:cached'
+            - './docker/php/config/custom-override.ini:/usr/local/etc/php/conf.d/custom-override.ini'
+        ports:
+            - '22:2020'
+        links:
+            - mysql
+        networks:
+            - hosp-cms-network
+
+    redis:
+        image: redis:latest
+        container_name: "${PROJECT_NAME}_redis"
+        ports:
+            - '${REDIS_PORT:-6379}:6379'
+        volumes:
+            - 'redis_data:/data'
+        networks:
+            - hosp-cms-network
+
+    mysql:
+        image: mariadb:latest
+        container_name: "${PROJECT_NAME}_mysql"
+        restart: unless-stopped
+        environment:
+            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+            MYSQL_DATABASE: '${DB_DATABASE}'
+            MYSQL_USER: '${DB_USERNAME}'
+            MYSQL_PASSWORD: '${DB_PASSWORD}'
+            MYSQL_ROOT_HOST: "%"
+            MYSQL_ALLOW_EMPTY_PASSWORD: 1
+            command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+        volumes:
+            - 'mysql_data:/data'
+        ports:
+            - '${FORWARD_DB_PORT:-3307}:3306'
+        networks:
+            - hosp-cms-network
+
+    elasticsearch:
+        image: elasticsearch:8.4.3
+        container_name: "${PROJECT_NAME}_elasticsearch"
+        volumes:
+            - 'elastic_data:/usr/share/elasticsearch/data'
+        ports:
+            - '${ES_PORT:-9200}:9200'
+        deploy:
+            resources:
+                limits:
+                    cpus: "0.50"  # Use at most 50% of one CPU core
+                    memory: 50M  # Use at most 50 MB of RAM
+        environment:
+            - discovery.type=single-node
+        networks:
+            - hosp-cms-network
+
+networks:
+    hosp-cms-network:
+        driver: bridge
+
+volumes:
+    mysql_data:
+        driver: local
+    redis_data:
+        driver: local
+    elastic_data:
+        driver: local
