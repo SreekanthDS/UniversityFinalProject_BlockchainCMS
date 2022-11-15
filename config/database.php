@@ -148,4 +148,9 @@ return [
 
     ],
 
+    'seeders' => [
+        'users' => [
+            'max_count' => env('SEED_USERS_MAX_COUNT', 50),
+        ],
+    ],
 ];

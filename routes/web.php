@@ -13,6 +13,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/', static function () {
     return view('welcome');
 });
+
+Route::get('/register', [
+    Controllers\RegisterTenantController::class,
+    'show',
+])->name('central.tenants.register');
+Route::post('/register/submit', [
+    Controllers\RegisterTenantController::class,
+    'submit',
+])->name('central.tenants.register.submit');
