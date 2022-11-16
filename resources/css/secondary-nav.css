@@ -1,0 +1,33 @@
+.secondary-nav {
+    font-size: 14px;
+}
+
+.secondary-nav .nav {
+    font-size: 12px;
+}
+
+.secondary-nav a+a {
+    margin-left: 10px;
+}
+
+.secondary-nav a {
+    padding: 4px 14px 6px;
+    font-weight: 400;
+    border-bottom-right-radius: 1rem;
+    border-bottom-left-radius: 1rem;
+}
+
+.secondary-nav a:hover {
+    background-color: hsl(var(--p) / 1);
+    color: #FFFFFF;
+}
+
+.secondary-nav a {
+    color: #FFFFFF;
+    font-weight: 400;
+    border-radius: 1rem;
+}
+
+.secondary-nav a.tab-active {
+    background-color: #B4B4B4;
+}

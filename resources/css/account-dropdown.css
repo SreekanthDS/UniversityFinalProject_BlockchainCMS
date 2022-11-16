@@ -1,0 +1,126 @@
+.my-profile {
+    line-height: 1rem;
+    z-index: 100;
+}
+
+.my-profile .profile-image {
+    width: 72px;
+    height: 62px;
+}
+
+.my-profile .profile-footer {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.my-profile .hexagon {
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+}
+
+.my-profile .hexagon img {
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+    margin: 1px;
+    height: calc(100% - 2px);
+    width: calc(100% - 2px);
+}
+
+.my-profile .notification-badge {
+    top: 0;
+    left: 0;
+}
+
+@media (min-width: 834px) {
+    .my-profile .notification-badge {
+        top: 6px;
+        position: absolute;
+    }
+}
+
+.my-profile .nav-link:hover {
+    text-decoration: underline;
+}
+
+.my-profile .option-btn {
+    vertical-align: 0.255em;
+    font-size: 12px;
+    transition: none 0s ease 0s;
+}
+
+.my-profile .option-btn:hover, .my-profile .option-btn:focus {
+    color: hsl(var(--p) / 1);
+}
+
+.my-profile .option-btn::after {
+    display: inline-block;
+    margin-left: 0.255em;
+    vertical-align: 0.255em;
+    content: "";
+    margin-left: auto;
+    padding-left: 0.7em;
+    font-family: "international-workplace";
+    content: "\e900";
+    border: 0;
+    font-size: 7px;
+    transition: all 0.3s linear;
+}
+
+.notification-badge {
+    font-size: 12px;
+    min-width: 0.5rem;
+    margin-left: 0.3rem;
+    margin-right: 0.3rem;
+    padding-left: 0.1rem;
+    padding-right: 0.1rem;
+    z-index: 100;
+    display: inline-block;
+    position: relative;
+    background-color: hsl(var(--p) / 1);
+    flex-shrink: 0;
+}
+
+.notification-badge .icon {
+    font-size: 0.75em;
+}
+
+.notification-badge:before,
+.notification-badge:after {
+    content: "";
+    position: absolute;
+    border: 0.5rem solid transparent;
+    border-right-width: 0.3rem;
+    border-left-width: 0.3rem;
+}
+
+.notification-badge:before {
+    right: 100%;
+    border-right-color: hsl(var(--p) / 1);
+}
+
+.notification-badge:after {
+    left: 100%;
+    border-left-color: hsl(var(--p) / 1);
+}
+
+.notification-badge.success {
+    background-color: hsl(var(--s) / 1);
+}
+
+.notification-badge.success:before {
+    border-right-color: hsl(var(--s) / 1);
+}
+
+.notification-badge.success:after {
+    border-left-color: hsl(var(--s) / 1);
+}
+
+.notification-badge.warning {
+    background-color: hsl(var(--wa) / 1);
+}
+
+.notification-badge.warning:before {
+    border-right-color: hsl(var(--wa) / 1);
+}
+
+.notification-badge.warning:after {
+    border-left-color: hsl(var(--wa) / 1);
+}

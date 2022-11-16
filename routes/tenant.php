@@ -20,12 +20,18 @@ use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 Route::group([
     'middleware' => ['tenant', PreventAccessFromCentralDomains::class], // See the middleware group in Http Kernel
     'as' => 'tenant.',
-], static function () {
+], function () {
     Route::redirect('/', '/home');
 
-    Route::prefix('home')->group(function () {
-        Route::get('/', static function () {
-            return view('welcome');
-        });
+//    Route::prefix('home')->group(function () {
+//        Route::get('/', function () {
+//            return view('welcome');
+//        });
+//    });
+
+    Route::middleware('auth')->group(function () {
+        Route::get('/dashboard', function () {
+            return view('');
+        })->name('dashboard');
     });
 });

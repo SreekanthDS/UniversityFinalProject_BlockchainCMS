@@ -1,0 +1,38 @@
+.plaque-container {
+    width: 25%;
+}
+
+.plaque {
+    flex-basis: 130px;
+    flex-grow: 0;
+}
+
+.plaque .icon {
+    font-size: 30px;
+}
+
+.plaque line {
+    stroke: #B4B4B4;
+}
+
+.plaque .fill-shape {
+    opacity: 0;
+    fill: hsl(var(--p) / 1);
+    stroke: hsl(var(--p) / 1);
+}
+
+.plaque:hover .content {
+    border-color: hsl(var(--p) / 1);
+    background-color: hsl(var(--p) / 1);
+    color: white;
+}
+
+.plaque:hover .fill-shape {
+    opacity: 1;
+}
+
+.plaque .content {
+    border-left: 1px solid #B4B4B4;
+    border-right: 1px solid #B4B4B4;
+    overflow: hidden;
+}

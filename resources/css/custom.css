@@ -1,0 +1,27 @@
+@import "./navigation.css";
+@import "./plaque.css";
+@import "./search-bar.css";
+@import "./account-dropdown.css";
+@import "./secondary-nav.css";
+@import "./enrollment-table.css";
+
+.bg-image {
+    background-image: url('/images/bg-image.jpg');
+    background-color: rgba(105, 105, 105, 0.1);
+    background-position: 50%;
+    background-size: cover;
+    margin-bottom: 10rem;
+    overflow: hidden;
+}
+
+.logo {
+    width: 150px;
+    height: 26px;
+}
+
+.dashboard-text {
+    font-family: "lato", "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-weight: 400;
+    text-transform: capitalize;
+    font-size: 26px;
+}

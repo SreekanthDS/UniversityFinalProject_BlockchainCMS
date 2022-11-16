@@ -32,7 +32,8 @@
         @livewireStyles
 
         <!-- Scripts -->
-        <script defer src="node_modules/@fortawesome/fontawesome-pro/js/all.js"></script>
+        <script defer src="https://kit.fontawesome.com/342cc5320c.js" crossorigin="anonymous"></script>
+{{--        <script defer src="node_modules/@fortawesome/fontawesome-pro/js/all.js"></script>--}}
         <script src="{{ mix('js/app.js') }}" defer></script>
     </head>
     <body class="bg-base-100 drawer drawer-mobile h-full bg-image">
