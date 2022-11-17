@@ -28,11 +28,11 @@ Route::post('/register/submit', [
     'submit',
 ])->name('central.tenants.register.submit');
 
-Route::get("/login", [Controllers\LoginTenantController::class, "show"])->name(
-    "central.tenants.login"
+Route::get('/login', [Controllers\LoginTenantController::class, 'show'])->name(
+    'central.tenants.login'
 );
 
-Route::post("/login/submit", [
+Route::post('/login/submit', [
     Controllers\LoginTenantController::class,
-    "submit",
-])->name("central.tenants.login.submit");
+    'submit',
+])->name('central.tenants.login.submit');

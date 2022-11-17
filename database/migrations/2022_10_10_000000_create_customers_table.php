@@ -13,8 +13,9 @@ return new class() extends Migration
      */
     public function up()
     {
-        Schema::create('user_blocks', function (Blueprint $table) {
+        Schema::create('customers', function (Blueprint $table) {
             $table->id();
+            $table->uuid()->unique()->index();
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ return new class() extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_blocks');
+        Schema::dropIfExists('customers');
     }
 };
