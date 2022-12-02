@@ -3,8 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\CustomerResource\Pages;
-//use App\Filament\Resources\CustomerResource\RelationManagers;
-use App\Models\Customer\CustomerBlockChain;
+use App\Models\Customer\Customer;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -13,9 +12,19 @@ use Filament\Tables;
 
 class CustomerResource extends Resource
 {
-    protected static ?string $model = CustomerBlockChain::class;
+    protected static ?string $model = Customer::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
+
+    protected static ?string $navigationGroup = 'Customers & Bookings';
+
+    protected static ?string $recordTitleAttribute = 'Customer';
+
+    protected static ?string $label = 'Customer';
+
+    protected static ?string $modelLabel = 'Customer';
+
+    protected static ?string $slug = 'customers';
 
     public static function form(Form $form): Form
     {
@@ -74,10 +83,36 @@ class CustomerResource extends Resource
     {
         return $table
             ->columns([
-                //
-            ])
-            ->filters([
-                //
+                Tables\Columns\TextColumn::make("last_name")
+                    ->label('Last Name')
+                    ->getStateUsing(function ($record) {
+                        return $record->blocks[1]->data['last_name'];
+                    }),
+                Tables\Columns\TextColumn::make("first_name")
+                    ->label('First Name')
+                    ->getStateUsing(function ($record) {
+                        return $record->blocks[1]->data['first_name'];
+                    }),
+                Tables\Columns\TextColumn::make("email")
+                    ->label('Email')
+                    ->getStateUsing(function ($record) {
+                        return $record->blocks[1]->data['email'];
+                    }),
+                Tables\Columns\TextColumn::make("postcode")
+                    ->label('Postcode')
+                    ->getStateUsing(function ($record) {
+                        return $record->blocks[1]->data['postcode'];
+                    }),
+                Tables\Columns\TextColumn::make("id_type")
+                    ->label('ID Type')
+                    ->getStateUsing(function ($record) {
+                        return $record->blocks[1]->data['id_type'];
+                    }),
+                Tables\Columns\TextColumn::make("id_number")
+                    ->label('ID Number')
+                    ->getStateUsing(function ($record) {
+                        return $record->blocks[1]->data['id_number'];
+                    }),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -87,19 +122,11 @@ class CustomerResource extends Resource
             ]);
     }
 
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
-    }
-
     public static function getPages(): array
     {
         return [
             'index' => Pages\ListCustomers::route('/'),
             'create' => Pages\CreateCustomer::route('/create'),
-            'edit' => Pages\EditCustomer::route('/{record}/edit'),
         ];
     }
 }

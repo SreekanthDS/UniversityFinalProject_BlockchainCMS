@@ -8,7 +8,7 @@ use App\Events\CreateNextBlock;
 use App\Models\Customer\CustomerBlock;
 use App\Models\Customer\CustomerBlockChain;
 use DateTime;
-use ReflectionException;
+use Filament\Notifications\Notification;
 use Spatie\EventSourcing\EventHandlers\Projectors\Projector;
 
 define('HASH_ALG', 'sha256');
@@ -27,8 +27,20 @@ class CustomerProjector extends Projector
         $blocks = $customerBlockChain->blocks()->get();
         $totalBlocks = $blocks->count();
 
-        $previousBlock = reset($blocks);
-        event(new CreateNextBlock($customerBlockChain, $previousBlock, $blockData, $totalBlocks));
+        $previousBlock = $blocks[$totalBlocks - 1];
+        $currentBlockHash = hash(HASH_ALG, implode(',', $blockData));
+        $allBlocks = CustomerBlock::query()->whereNotNull('previous_hash')->where('hashed_data', '=', $currentBlockHash)->get();
+
+        if ($allBlocks->count() === 0) {
+            event(new CreateNextBlock($customerBlockChain, $previousBlock, $blockData, $totalBlocks));
+        } else {
+            Notification::make()
+                ->danger()
+                ->title('Customer already Exists')
+                ->send();
+
+            $event->customer->delete();
+        }
     }
 
     /**
@@ -62,12 +74,16 @@ class CustomerProjector extends Projector
     public function createBlock(CustomerBlockChain $customerBlockChain, int $blockIndex, string|null $previousHash, array $blockData)
     {
         $createdAt = new DateTime();
+        $hashedData = hash(
+            HASH_ALG,
+            implode(',', $blockData)
+        );
         $hash = hash(
             HASH_ALG,
             $blockIndex .
             $previousHash .
             $createdAt->getTimestamp() .
-            implode(',', $blockData)
+            $hashedData
         );
 
         CustomerBlock::create([
@@ -77,6 +93,7 @@ class CustomerProjector extends Projector
             'created_at' => $createdAt,
             'data' => $blockData,
             'hash' => $hash,
+            'hashed_data' => $hashedData,
         ]);
     }
 }

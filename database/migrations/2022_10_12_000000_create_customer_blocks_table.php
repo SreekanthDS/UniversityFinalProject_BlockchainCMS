@@ -17,8 +17,9 @@ return new class() extends Migration
             $table->id();
             $table->string('block_index');
             $table->string('blockchain_id');
-            $table->string('hash')->unique();
-            $table->string('previous_hash')->unique();
+            $table->string('hash');
+            $table->string('previous_hash')->nullable();
+            $table->string('hashed_data');
             $table->json('data');
 
             $table->foreign('blockchain_id')

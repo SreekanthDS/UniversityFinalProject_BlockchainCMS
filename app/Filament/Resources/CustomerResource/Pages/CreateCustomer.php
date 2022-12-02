@@ -17,9 +17,9 @@ class CreateCustomer extends CreateRecord
 
     protected static bool $canCreateAnother = false;
 
-    public Customer $customer;
+    private Customer $customer;
 
-    public CustomerBlockChain $customerBlockChain;
+    private CustomerBlockChain $customerBlockChain;
 
     protected function beforeCreate(): void
     {
@@ -40,7 +40,7 @@ class CreateCustomer extends CreateRecord
 
     protected function handleRecordCreation(array $data): Model
     {
-        event(new CreateCustomerBlockchain($this->customerBlockChain, $data));
+        event(new CreateCustomerBlockchain($this->customer, $this->customerBlockChain, $data));
 
         return $this->customer;
     }

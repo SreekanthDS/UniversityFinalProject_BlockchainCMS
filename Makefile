@@ -12,11 +12,9 @@ install:
 fresh:
 	docker-compose run --rm app php artisan migrate:fresh
 
-pint:
-	docker-compose run --rm app ./vendor/bin/pint
-
 php:
 	@docker exec -it $(PROJECT_NAME)_php /bin/bash
 
 f-user:
 	docker-compose run --rm app php artisan filament:user
+

@@ -2,7 +2,6 @@
 
 namespace App\Models\Customer;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
@@ -14,6 +13,6 @@ class Customer extends Model
 
     public function customerBlockchain(): HasOne
     {
-        return $this->hasOne(CustomerBlockChain::class);
+        return $this->hasOne(CustomerBlockChain::class, 'customer_id', 'uuid');
     }
 }

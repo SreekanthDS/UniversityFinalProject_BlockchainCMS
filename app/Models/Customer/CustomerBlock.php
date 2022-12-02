@@ -6,7 +6,6 @@ use App\Contracts\Comparable;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use ReflectionException;
 
 final class CustomerBlock extends Model implements Comparable
 {
@@ -22,8 +21,6 @@ final class CustomerBlock extends Model implements Comparable
      * Detect if block is valid
      *
      * @return bool True if block is valid, false otherwise
-     *
-     * @throws ReflectionException
      */
     public function isValid(): bool
     {

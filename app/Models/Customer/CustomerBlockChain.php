@@ -5,55 +5,16 @@ namespace App\Models\Customer;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use ReflectionException;
+use ReturnTypeWillChange;
 
-final class CustomerBlockChain extends Model
+final class CustomerBlockChain extends Model implements \Countable
 {
     protected $table = 'customer_block_chain';
 
     protected $guarded = [];
 
-//    /**
-//     * Holds blocks
-//     *
-//     * @var array
-//     */
-//    private array $blocks = [];
-
-//    /**
-//     * Constructor
-//     *
-//     * Add genesis block
-//     *
-//     * @return void
-//     *
-//     * @throws ReflectionException
-//     */
-//    public function __construct()
-//    {
-//        // Add genesis block
-//        $this->add(
-//            CustomerBlock::genesis()
-//        );
-//    }
-
-//    /**
-//     * Add block to blockchain
-//     *
-//     * @param CustomerBlock $userBlock Block to add to chain
-//     * @return self
-//     */
-//    public function add(CustomerBlock $userBlock): self
-//    {
-//        $this->blocks[] = $userBlock;
-//
-//        return $this;
-//    }
-
     /**
      * Detect if blockchain is valid
-     *
-     * @throws ReflectionException
      */
     public function isValid(): bool
     {
@@ -86,5 +47,10 @@ final class CustomerBlockChain extends Model
     public function blocks(): HasMany
     {
         return $this->hasMany(CustomerBlock::class, 'blockchain_id', 'uuid');
+    }
+
+    #[ReturnTypeWillChange] public function count()
+    {
+        // TODO: Implement count() method.
     }
 }
